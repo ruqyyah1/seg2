@@ -51,7 +51,11 @@ public class EchoServer extends AbstractServer
     System.out.println("Message received: " + msg + " from " + client);
     this.sendToAllClients(msg);
   }
-    
+
+  public void handleMessageFromServerConsole(String message) {
+    sendToAllClients("SERVER MSG> " + message);
+  }
+  
   /**
    * This method overrides the one in the superclass.  Called
    * when the server starts listening for connections.
@@ -121,5 +125,6 @@ synchronized protected void clientDisconnected(ConnectionToClient client) {
       System.out.println("ERROR - Could not listen for clients!");
     }
   }
+
 }
 //End of EchoServer class

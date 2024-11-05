@@ -107,6 +107,95 @@ public class ClientConsole implements ChatIF
     System.out.println("> " + message);
   }
 
+  /**
+   * anything that starts with # should be considered a command.
+   * @param message
+   */
+  public void handleUserInput(String message) {
+    if (message.startsWith("#")) {
+        processCommand(message);
+    } else {
+        try {
+            client.sendToServer(message);
+        } catch (IOException e) {
+            System.out.println("Error: Could not send message to server. Disconnected.");
+        }
+    }
+  }
+
+  /**
+   * implement specified commands 
+   * @param command
+   */
+  private void processCommand(String command) {
+    String[] parts = command.split(" ");
+    String cmd = parts[0];
+    
+    switch (cmd) {
+      case "#quit":
+        quit();
+        break;
+
+      case "#logoff":
+          try {
+              client.closeConnection();
+          } catch (IOException e) {
+              System.out.println("Error: Could not log off from server.");
+          }
+          break;
+
+      case "#sethost":
+          if (!client.isConnected()) {
+              client.setHost(parts[1]);
+          } else {
+              System.out.println("Error: Disconnect before setting a new host.");
+          }
+          break;
+
+      case "#setport":
+          if (!client.isConnected()) {
+              client.setPort(Integer.parseInt(parts[1]));
+          } else {
+              System.out.println("Error: Disconnect before setting a new port.");
+          }
+          break;
+
+      case "#login":
+          if (!client.isConnected()) {
+              try {
+                  client.openConnection();
+              } catch (IOException e) {
+                  System.out.println("Error: Could not connect to server.");
+              }
+          } else {
+              System.out.println("Error: Already connected to server.");
+          }
+          break;
+
+      case "#gethost":
+          System.out.println("Current host: " + client.getHost());
+          break;
+
+      case "#getport":
+          System.out.println("Current port: " + client.getPort());
+          break;
+
+      default:
+          System.out.println("Unknown command: " + cmd);
+          break;
+    }
+}
+
+private void quit() {
+    try {
+        client.closeConnection();
+    } catch (IOException e) {
+        System.out.println("Error: Could not disconnect from server.");
+    } finally {
+        System.exit(0);
+    }
+}
+
   
   //Class methods ***************************************************
   
