@@ -117,7 +117,11 @@ public class ClientConsole implements ChatIF
    */
   public static void main(String[] args) 
   {
-    String host = "";
+    String host = args.length > 0 ? args[0] : "localhost"; // Default will be localhost
+    int port = args.length > 1 ? Integer.parseInt(args[1]) : ChatClient.DEFAULT_PORT; // this will be default port if not provided
+
+    ClientConsole console = new ClientConsole(host, port);
+    console.accept();
 
 
     try

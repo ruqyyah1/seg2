@@ -80,6 +80,22 @@ public class ChatClient extends AbstractClient
       quit();
     }
   }
+
+  /**
+   * exits when server shuts down
+   */
+  @Override
+protected void connectionClosed() {
+    System.out.println("The server has shut down.");
+    System.exit(0);
+}
+
+@Override
+protected void connectionException(Exception exception) {
+    System.out.println("The server has shut down unexpectedly.");
+    System.exit(0);
+}
+
   
   /**
    * This method terminates the client.
@@ -93,5 +109,7 @@ public class ChatClient extends AbstractClient
     catch(IOException e) {}
     System.exit(0);
   }
+  public static final int DEFAULT_PORT = 5555;
+
 }
 //End of ChatClient class
