@@ -28,6 +28,16 @@ public class ChatClient extends AbstractClient
    */
   ChatIF clientUI; 
 
+  /**
+   * to store unique id for each client
+   */
+  private String loginID;
+
+    public ChatClient(String loginID, String host, int port) throws IOException {
+        super(host, port);
+        this.loginID = loginID;
+    }
+
   
   //Constructors ****************************************************
   
@@ -94,6 +104,18 @@ protected void connectionClosed() {
 protected void connectionException(Exception exception) {
     System.out.println("The server has shut down unexpectedly.");
     System.exit(0);
+}
+
+/**
+ * exercise 3 to automatically send the command when the client conncects to server
+ */
+@Override
+protected void connectionEstablished() {
+    try {
+        sendToServer("#login " + loginID);
+    } catch (IOException e) {
+        System.out.println("Error: Could not send login command to the server.");
+    }
 }
 
   

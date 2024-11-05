@@ -41,15 +41,24 @@ public class EchoServer extends AbstractServer
   
   /**
    * This method handles any messages received from the client.
-   *
+   * exercise 3== extracting and storing client loginID
    * @param msg The message received from the client.
    * @param client The connection from which the message originated.
    */
-  public void handleMessageFromClient
+  protected void handleMessageFromClient
     (Object msg, ConnectionToClient client)
   {
+    String message = msg.toString();
+    
+    if (message.startsWith("#login ")) {
+        String loginID = message.substring(7).trim();
+        client.setInfo("loginID", loginID);
+        System.out.println("Client " + loginID + " has logged in.");
+        
+    } else {
+    
     System.out.println("Message received: " + msg + " from " + client);
-    this.sendToAllClients(msg);
+    this.sendToAllClients(msg);}
   }
 
   public void handleMessageFromServerConsole(String message) {
@@ -90,6 +99,8 @@ protected void clientConnected(ConnectionToClient client) {
 synchronized protected void clientDisconnected(ConnectionToClient client) {
     System.out.println("Client " + client.getInfo("loginID") + " has disconnected.");
 }
+
+
 
   
   //Class methods ***************************************************
