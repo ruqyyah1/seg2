@@ -1,7 +1,9 @@
 {
-    "java.project.referencedLibraries": [
-      "C:/Users/ruqyy/OCSF/**/*.jar"
-    ],
+
+    "java.project.sourcePaths": [
+        "simpleChat",
+        "OCSF/src"
+    ]
 
   }
   
